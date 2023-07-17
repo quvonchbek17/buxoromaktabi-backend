@@ -8,9 +8,9 @@ const updateTeacher = require("../../middlewares/validation/teachers/updateTeach
 const TeachersRouter = require('express').Router();
 
 
-TeachersRouter.post("/one", protect, validate(allid), GetOneTeachers);
-TeachersRouter.get("/all", protect, GetAllTeachers);
-TeachersRouter.get("/page=:page&size=:size", protect, GetPaginationTeachers);
+TeachersRouter.post("/one", validate(allid), GetOneTeachers);
+TeachersRouter.get("/all", GetAllTeachers);
+TeachersRouter.get("/page=:page&size=:size", GetPaginationTeachers);
 TeachersRouter.post("/", protect, validate(postteacher), PostTeacher);
 TeachersRouter.put("/", protect, validate(updateTeacher), UpdateTeacher);
 TeachersRouter.delete("/", protect, validate(allid), DeleteTeacher);

@@ -8,9 +8,9 @@ const updateResult = require("../../middlewares/validation/results/updateResult"
 const ResultsRouter = require('express').Router();
 
 
-ResultsRouter.post("/one", protect, validate(allid), GetOneResults);
-ResultsRouter.get("/all", protect, GetAllResults);
-ResultsRouter.get("/page=:page&size=:size", protect, GetPaginationResults);
+ResultsRouter.post("/one", validate(allid), GetOneResults);
+ResultsRouter.get("/all", GetAllResults);
+ResultsRouter.get("/page=:page&size=:size", GetPaginationResults);
 ResultsRouter.post("/", protect, validate(postResults), PostResult);
 ResultsRouter.put("/", protect, validate(updateResult), UpdateResult);
 ResultsRouter.delete("/", protect, validate(allid), DeleteResult);

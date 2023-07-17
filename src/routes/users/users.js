@@ -12,7 +12,7 @@ const UsersRouter = require('express').Router();
 UsersRouter.post("/one", validate(allid), protect, GetOneUsers);
 UsersRouter.get("/all", protect, GetAllUsers);
 UsersRouter.get("/page=:page&size=:size", protect, GetPaginationUsers);
-UsersRouter.post("/", protect, validate(addUser), PostUser);
+UsersRouter.post("/", validate(addUser), PostUser);
 UsersRouter.put("/", protect, validate(updateUser), UpdateUser);
 UsersRouter.delete("/", protect, validate(allid),  DeleteUser);
 

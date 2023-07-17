@@ -10,9 +10,9 @@ const allid = require("../../middlewares/validation/allid")
 const CommentsRouter = require('express').Router();
 
 
-CommentsRouter.post("/one", protect, validate(allid), GetOneComment);
-CommentsRouter.get("/all", protect,  GetAllComments);
-CommentsRouter.get("/page=:page&size=:size", protect, GetPaginationComments);
+CommentsRouter.post("/one", validate(allid), GetOneComment);
+CommentsRouter.get("/all", GetAllComments);
+CommentsRouter.get("/page=:page&size=:size", GetPaginationComments);
 CommentsRouter.post("/", protect,  validate(postComment), PostComment);
 CommentsRouter.put("/", protect, validate(updateComment), UpdateComment);
 CommentsRouter.delete("/", protect,  validate(allid), DeleteComment);

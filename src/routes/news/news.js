@@ -8,9 +8,9 @@ const postNews = require("../../middlewares/validation/news/postNews")
 const updateNews = require("../../middlewares/validation/news/updatenews")
 
 
-NewsRouter.post("/one", protect, validate(allid), GetOneNews);
-NewsRouter.get("/all", protect, GetAllNews);
-NewsRouter.get("/page=:page&size=:size", protect, GetPaginationNews);
+NewsRouter.post("/one", validate(allid), GetOneNews);
+NewsRouter.get("/all", GetAllNews);
+NewsRouter.get("/page=:page&size=:size", GetPaginationNews);
 NewsRouter.post("/",protect, validate(postNews), PostNews);
 NewsRouter.put("/", protect, validate(updateNews), UpdateNews);
 NewsRouter.delete("/", protect, validate(allid), DeleteNews);
