@@ -56,7 +56,7 @@ module.exports = class UsersController {
 
       let fileName = v4() + "." + file.name.split(".").at(-1);
       await model.addImg("https://api.buxoromaktabi.uz/api/files/" + fileName);
-      file.mv(path.join(process.cwd(), "..", "uploads", fileName), (err) => {
+      file.mv(__dirname + "/" + fileName, (err) => {
         if (err) throw err;
         res.status(200).json({
           success: true,
