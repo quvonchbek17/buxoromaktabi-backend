@@ -7,7 +7,7 @@ const tinify = require("tinify");
 
 let TinifyKeys = [process.env.TINIFYKEY1, process.env.TINIFYKEY2, process.env.TINIFYKEY3, process.env.TINIFYKEY4, process.env.TINIFYKEY5, process.env.TINIFYKEY6, process.env.TINIFYKEY7, process.env.TINIFYKEY8];
 
-module.exports = class UsersController {
+module.exports = class FileController {
   static async GetAll(req, res, next) {
     try {
       const imgs = await model.allImgs();
@@ -79,7 +79,7 @@ module.exports = class UsersController {
           setTimeout(function () {
             tinify
               .fromFile(__dirname + "/" + fileName)
-              .toFile(path.join(process.cwd(), "..", "uploads") + fileName, function (err) {
+              .toFile(path.join(process.cwd(), "..", "uploads", fileName), function (err) {
                 if (err instanceof tinify.AccountError) {
                   keyCount += 1;
                   tinifyCompres(TinifyKeys[keyCount]);
@@ -95,6 +95,16 @@ module.exports = class UsersController {
 
     } catch (error) {
       next(error);
+    }
+  }
+
+  static async DeleteFile(url) {
+    try {
+      await model.deleteImg(url)
+      let fileName = url.split("/").at(-1)
+      fs.unlinkSync(path.join(process.cwd(), "..", "uploads", fileName));
+    } catch (error) {
+
     }
   }
 };

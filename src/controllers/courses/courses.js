@@ -1,6 +1,7 @@
 const { generateHash, compareHash } = require("../../utils/bcrypt");
 const { v4 } = require("uuid");
 const model = require("./model");
+const { DeleteFile } = require("../fileupload/fileupload");
 
 
 module.exports = class UsersController {
@@ -115,12 +116,16 @@ static async GetPaginationCourses(req, res, next) {
        });
        return;
      }
-     const Name = name ? name : oldData.teacher_name;
+
+     if(imgUrl){
+      await DeleteFile(oldData.course_img)
+     }
+     const Name = name ? name : oldData.course_name;
      const Status = (typeof status) == "boolean" ? status : oldData.course_status;
      const Price = price ? price : oldData.course_price;
      const Like = like ? like : oldData.course_like;
      const Desc = desc ? desc : oldData.course_desc;
-     const Img = imgUrl ? imgUrl : oldData.teacher_img;
+     const Img = imgUrl ? imgUrl : oldData.course_img;
      const TeacherId = teacherId ? teacherId : oldData.teacher_id;
      await model.updateCourse(Name, Status, Price, Like,Desc,Img,TeacherId, id);
 
@@ -150,7 +155,7 @@ static async DeleteCourse(req, res, next) {
    } else {
     const { course_id, course_name, course_status, course_price, course_like, course_desc, course_img, teacher_id } = oldData
     await model.addArchiveCourse(course_name, course_status, course_price, course_like, course_desc, course_img, teacher_id, course_id)
-
+    await DeleteFile(course_img)
     await model.deleteCourse(id)
    }
 

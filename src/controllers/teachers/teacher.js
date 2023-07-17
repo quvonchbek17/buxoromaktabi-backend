@@ -1,6 +1,7 @@
 const { generateHash, compareHash } = require("../../utils/bcrypt");
 const { v4 } = require("uuid");
 const model = require("./model");
+const { DeleteFile } = require("../fileupload/fileupload");
 
 
 module.exports = class UsersController {
@@ -113,6 +114,10 @@ static async GetPaginationTeachers(req, res, next) {
        });
        return;
      }
+
+     if(imgUrl){
+      await DeleteFile(oldData.teacher_img)
+     }
      const Name = name ? name : oldData.teacher_name;
      const Surname = surname ? surname : oldData.teacher_surname;
      const Experince = experince ? experince : oldData.teacher_experince;
@@ -146,6 +151,7 @@ static async DeleteTeacher(req, res, next) {
      return;
    } else {
     const { teacher_id, teacher_name, teacher_surname, teacher_experince, teacher_subjects, teacher_about, teacher_img } = oldData
+    await DeleteFile(teacher_img)
     await model.addArchiveTeacher(teacher_name, teacher_surname, teacher_experince, teacher_subjects, teacher_about, teacher_img, teacher_id)
 
     await model.deleteTeacher(id)
