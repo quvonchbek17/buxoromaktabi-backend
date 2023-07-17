@@ -25,11 +25,11 @@ Update news set updated_at = NOW(), news_img = $1 ,news_data = $2, news_view = $
 `;
 
 const UPDATE_VIEW_ONE = `
-Update news set updated_at = NOW() news_view = news_view + 1  where news_id = $1
+Update news set updated_at = NOW(), news_view = news_view + 1  where news_id = $1
 `;
 
 const UPDATE_VIEW_ALL = `
-Update news set updated_at = NOW() news_view = news_view + 1
+Update news set updated_at = NOW(), news_view = news_view + 1
 `;
 
 const DELETE_NEWS = `
