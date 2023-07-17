@@ -24,6 +24,14 @@ const UPDATE_NEWS = `
 Update news set updated_at = NOW(), news_img = $1 ,news_data = $2, news_view = $3, news_title = $4, news_desc = $5 where news_id = $6
 `;
 
+const UPDATE_VIEW_ONE = `
+Update news set updated_at = NOW() news_view = news_view + 1  where news_id = $1
+`;
+
+const UPDATE_VIEW_ALL = `
+Update news set updated_at = NOW() news_view = news_view + 1
+`;
+
 const DELETE_NEWS = `
 Delete from news where news_id = $1
 `;
@@ -51,6 +59,12 @@ const addArchiveNews = async (img, data, view, title, desc, archiveId) => {
 const updateNews = (img, data, view, title, desc, id) =>
   fetchData(UPDATE_NEWS, img, data, view, title, desc, id);
 
+  const updateViewAll = () =>
+  fetchData(UPDATE_VIEW_ALL);
+
+  const updateViewOne = (id) =>
+  fetchData(UPDATE_VIEW_ONE, id);
+
 const deleteNews = (id) => fetchData(DELETE_NEWS, id);
 
 module.exports = {
@@ -60,5 +74,7 @@ module.exports = {
   selectedNews,
   updateNews,
   addArchiveNews,
-  deleteNews
+  deleteNews,
+  updateViewAll,
+  updateViewOne
 };

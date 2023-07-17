@@ -11,6 +11,8 @@ module.exports = class UsersController {
       const { id } = req.body
      const news = await model.selectedNews(id)
 
+     await model.updateViewOne(id)
+
      if(news.length > 0){
       res.status(200).json({
         success: true,
@@ -32,6 +34,8 @@ module.exports = class UsersController {
   static async GetAllNews(req, res, next) {
     try {
      const news = await model.allNews()
+
+     await model.updateViewAll()
 
      if(news.length > 0){
       res.status(200).json({
@@ -55,6 +59,8 @@ static async GetPaginationNews(req, res, next) {
     const { page, size } = req.params
     const allNews = await model.allNews()
     const news = await model.paginationNews(size ,page == 1 || !size ? 0 : (page - 1)*size)
+
+    await model.updateViewAll()
 
    if(news.length > 0){
     res.status(200).json({
@@ -80,7 +86,7 @@ static async GetPaginationNews(req, res, next) {
       try {
         const {imgUrl, data, view, title, desc } = req.body
 
-       const created =  await model.addNews(imgUrl, data, view, title, desc)
+       const created =  await model.addNews(imgUrl, data, 0, title, desc)
 
        if(created){
          res.status(200).json({
@@ -102,7 +108,7 @@ static async GetPaginationNews(req, res, next) {
 
   static async UpdateNews(req, res, next) {
     try {
-      const { id, imgUrl, data, view, title, desc } = req.body
+      const { id, imgUrl, data, title, desc } = req.body
 
      const Data = await model.selectedNews(id);
      const oldData = Data[0];
@@ -119,7 +125,7 @@ static async GetPaginationNews(req, res, next) {
      }
      const Img = imgUrl ? imgUrl : oldData.news_img;
      const DATA = data ? data : oldData.news_data;
-     const View = view ? view : oldData.news_view;
+     const View = oldData.news_view;
      const Title = title ? title : oldData.news_title;
      const Desc = desc ? desc : oldData.news_desc;
      await model.updateNews(Img, DATA, View, Title, Desc, id);
